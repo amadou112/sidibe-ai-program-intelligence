@@ -4,15 +4,17 @@ import type { ReactNode } from "react";
 import { Brain, FileText, Sparkles, Clock, TrendingUp, TrendingDown, AlertTriangle } from "lucide-react";
 import Header from "../components/Header";
 import Metric from "../components/Metric";
+import Reveal, { RevealStagger, RevealItem } from "../components/Reveal";
 import { PREDICTIVE_INSIGHTS, HEALTH_TREND, MODEL_METRICS } from "../lib/insights";
 import { CATEGORIES, DOCUMENTS } from "../lib/documents";
 import { useLanguage } from "../lib/LanguageContext";
 import { STATUS_LABELS, CATEGORY_LABELS } from "../lib/translations";
+import { cardBase, cardStatic } from "../lib/ui";
 
 const TREND_STYLES: Record<string, { icon: ReactNode; badge: string }> = {
-  up: { icon: <TrendingUp size={18} />, badge: "text-emerald-700 bg-emerald-100" },
-  down: { icon: <TrendingDown size={18} />, badge: "text-rose-700 bg-rose-100" },
-  warning: { icon: <AlertTriangle size={18} />, badge: "text-amber-700 bg-amber-100" },
+  up: { icon: <TrendingUp size={18} />, badge: "text-success-700 bg-success-100" },
+  down: { icon: <TrendingDown size={18} />, badge: "text-danger-700 bg-danger-100" },
+  warning: { icon: <AlertTriangle size={18} />, badge: "text-warning-700 bg-warning-100" },
 };
 
 const INSIGHTS_TEXT = {
@@ -66,33 +68,43 @@ export default function Insights() {
       <Header active="Insights" />
 
       <section className="max-w-7xl mx-auto px-8 pt-14 pb-6">
-        <p className="text-blue-600 font-bold">{t.tag}</p>
-        <h1 className="text-4xl font-extrabold mt-2">{t.title}</h1>
-        <p className="mt-3 text-slate-700 max-w-2xl">{t.subtitle}</p>
+        <Reveal>
+          <p className="text-primary-600 font-bold">{t.tag}</p>
+          <h1 className="text-4xl font-extrabold mt-2 font-display">{t.title}</h1>
+          <p className="mt-3 text-slate-700 max-w-2xl">{t.subtitle}</p>
+        </Reveal>
       </section>
 
       <section className="max-w-7xl mx-auto px-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          <Metric icon={<Brain />} title={t.aiAccuracy} value="95%" />
-          <Metric icon={<FileText />} title={t.documentsProcessed} value={String(DOCUMENTS.length)} />
-          <Metric icon={<Sparkles />} title={t.activePredictions} value={String(PREDICTIVE_INSIGHTS.length)} />
-          <Metric icon={<Clock />} title={t.avgProcessingTime} value="4.2s" />
-        </div>
+        <RevealStagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <RevealItem>
+            <Metric icon={<Brain />} title={t.aiAccuracy} value="95%" />
+          </RevealItem>
+          <RevealItem>
+            <Metric icon={<FileText />} title={t.documentsProcessed} value={String(DOCUMENTS.length)} />
+          </RevealItem>
+          <RevealItem>
+            <Metric icon={<Sparkles />} title={t.activePredictions} value={String(PREDICTIVE_INSIGHTS.length)} />
+          </RevealItem>
+          <RevealItem>
+            <Metric icon={<Clock />} title={t.avgProcessingTime} value="4.2s" />
+          </RevealItem>
+        </RevealStagger>
       </section>
 
       <section className="max-w-7xl mx-auto px-8 py-12 grid grid-cols-1 xl:grid-cols-3 gap-8">
-        <div className="xl:col-span-2 bg-white rounded-3xl p-8 shadow-xl border border-blue-100">
+        <Reveal className={`xl:col-span-2 ${cardBase} p-8`}>
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-bold">{t.healthTrend}</h2>
             <div className="flex items-center gap-4 text-xs font-semibold text-slate-500">
               <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" /> {statusLabels["On Track"]}
+                <span className="w-2.5 h-2.5 rounded-full bg-success-500" /> {statusLabels["On Track"]}
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-amber-400" /> {statusLabels["At Risk"]}
+                <span className="w-2.5 h-2.5 rounded-full bg-warning-400" /> {statusLabels["At Risk"]}
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-rose-500" /> {statusLabels.Delayed}
+                <span className="w-2.5 h-2.5 rounded-full bg-danger-500" /> {statusLabels.Delayed}
               </span>
             </div>
           </div>
@@ -100,18 +112,18 @@ export default function Insights() {
           <div className="h-48 flex items-end justify-between gap-6 px-2">
             {HEALTH_TREND.map((m) => (
               <div key={m.month} className="flex flex-col items-center gap-2 flex-1">
-                <div className="w-full max-w-10 h-40 rounded-xl overflow-hidden flex flex-col bg-blue-50">
-                  <div style={{ height: `${m.onTrack}%` }} className="bg-emerald-500" />
-                  <div style={{ height: `${m.atRisk}%` }} className="bg-amber-400" />
-                  <div style={{ height: `${m.delayed}%` }} className="bg-rose-500" />
+                <div className="w-full max-w-10 h-40 rounded-xl overflow-hidden flex flex-col bg-primary-50">
+                  <div style={{ height: `${m.onTrack}%` }} className="bg-success-500 transition-[height] duration-700 ease-out" />
+                  <div style={{ height: `${m.atRisk}%` }} className="bg-warning-400 transition-[height] duration-700 ease-out" />
+                  <div style={{ height: `${m.delayed}%` }} className="bg-danger-500 transition-[height] duration-700 ease-out" />
                 </div>
                 <span className="text-xs font-semibold text-slate-500">{m.month}</span>
               </div>
             ))}
           </div>
-        </div>
+        </Reveal>
 
-        <div className="bg-white rounded-3xl p-8 shadow-xl border border-blue-100">
+        <Reveal delay={0.1} className={`${cardBase} p-8`}>
           <h2 className="text-xl font-bold mb-6">{t.modelPerformance}</h2>
 
           <div className="space-y-5">
@@ -122,9 +134,9 @@ export default function Insights() {
                   <span className="font-bold">{metric.value}</span>
                 </div>
                 {metric.percent !== undefined && (
-                  <div className="mt-2 h-2 bg-blue-50 rounded-full overflow-hidden">
+                  <div className="mt-2 h-2 bg-primary-50 rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-blue-600 rounded-full"
+                      className="h-full bg-primary-600 rounded-full transition-[width] duration-700 ease-out"
                       style={{ width: `${metric.percent}%` }}
                     />
                   </div>
@@ -132,18 +144,15 @@ export default function Insights() {
               </div>
             ))}
           </div>
-        </div>
+        </Reveal>
       </section>
 
       <section className="max-w-7xl mx-auto px-8 pb-12">
         <h2 className="text-xl font-bold mb-6">{t.predictiveInsights}</h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <RevealStagger className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {PREDICTIVE_INSIGHTS.map((insight) => (
-            <div
-              key={insight.id}
-              className="bg-white rounded-3xl p-6 shadow-xl border border-blue-100"
-            >
+            <RevealItem key={insight.id} className={`${cardBase} p-6`}>
               <div className="flex items-start justify-between gap-4">
                 <div className={`w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 ${TREND_STYLES[insight.trend].badge}`}>
                   {TREND_STYLES[insight.trend].icon}
@@ -155,14 +164,14 @@ export default function Insights() {
 
               <h3 className="font-bold mt-4">{insight.title}</h3>
               <p className="text-sm text-slate-600 mt-2">{insight.description}</p>
-              <p className="text-xs font-semibold text-blue-600 mt-4">{insight.program}</p>
-            </div>
+              <p className="text-xs font-semibold text-primary-600 mt-4">{insight.program}</p>
+            </RevealItem>
           ))}
-        </div>
+        </RevealStagger>
       </section>
 
       <section className="max-w-7xl mx-auto px-8 pb-20">
-        <div className="bg-white rounded-3xl p-8 shadow-xl border border-blue-100">
+        <Reveal className={`${cardStatic} p-8`}>
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-bold">{t.docsByCategory}</h2>
             <span className="text-sm text-slate-500 font-semibold">{DOCUMENTS.length} {t.total}</span>
@@ -174,9 +183,9 @@ export default function Insights() {
                 <span className="text-sm font-semibold text-slate-700 w-56 shrink-0">
                   {categoryLabels[row.category]}
                 </span>
-                <div className="flex-1 h-2.5 bg-blue-50 rounded-full overflow-hidden">
+                <div className="flex-1 h-2.5 bg-primary-50 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-blue-600 rounded-full"
+                    className="h-full bg-primary-600 rounded-full transition-[width] duration-700 ease-out"
                     style={{ width: `${(row.count / maxDocsCount) * 100}%` }}
                   />
                 </div>
@@ -184,7 +193,7 @@ export default function Insights() {
               </div>
             ))}
           </div>
-        </div>
+        </Reveal>
       </section>
     </main>
   );

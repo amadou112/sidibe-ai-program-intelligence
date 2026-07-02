@@ -11,9 +11,11 @@ import {
 } from "lucide-react";
 import Header from "../components/Header";
 import Metric from "../components/Metric";
+import Reveal, { RevealStagger, RevealItem } from "../components/Reveal";
 import { PROGRAMS, RISKS, STATUS_STYLES, SEVERITY_STYLES } from "../lib/data";
 import { useLanguage } from "../lib/LanguageContext";
 import { METRIC_LABELS, STATUS_LABELS, SEVERITY_LABELS } from "../lib/translations";
+import { cardBase } from "../lib/ui";
 
 const DASHBOARD_TEXT = {
   en: {
@@ -50,23 +52,35 @@ export default function Dashboard() {
       <Header active="Dashboard" />
 
       <section className="max-w-7xl mx-auto px-8 pt-14 pb-6">
-        <p className="text-blue-600 font-bold">{t.tag}</p>
-        <h1 className="text-4xl font-extrabold mt-2">{t.title}</h1>
-        <p className="mt-3 text-slate-700 max-w-2xl">{t.subtitle}</p>
+        <Reveal>
+          <p className="text-primary-600 font-bold">{t.tag}</p>
+          <h1 className="text-4xl font-extrabold mt-2 font-display">{t.title}</h1>
+          <p className="mt-3 text-slate-700 max-w-2xl">{t.subtitle}</p>
+        </Reveal>
       </section>
 
       <section className="max-w-7xl mx-auto px-8">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-5">
-          <Metric icon={<FolderKanban />} title={metricLabels.Programs} value="24" />
-          <Metric icon={<FileText />} title={metricLabels.Documents} value="1,248" />
-          <Metric icon={<AlertTriangle />} title={metricLabels.Risks} value="18" />
-          <Metric icon={<CheckCircle />} title={metricLabels.Tasks} value="324" />
-          <Metric icon={<Brain />} title={metricLabels["AI Insights"]} value="95%" />
-        </div>
+        <RevealStagger className="grid grid-cols-1 md:grid-cols-5 gap-5">
+          <RevealItem>
+            <Metric icon={<FolderKanban />} title={metricLabels.Programs} value="24" />
+          </RevealItem>
+          <RevealItem>
+            <Metric icon={<FileText />} title={metricLabels.Documents} value="1,248" />
+          </RevealItem>
+          <RevealItem>
+            <Metric icon={<AlertTriangle />} title={metricLabels.Risks} value="18" />
+          </RevealItem>
+          <RevealItem>
+            <Metric icon={<CheckCircle />} title={metricLabels.Tasks} value="324" />
+          </RevealItem>
+          <RevealItem>
+            <Metric icon={<Brain />} title={metricLabels["AI Insights"]} value="95%" />
+          </RevealItem>
+        </RevealStagger>
       </section>
 
       <section className="max-w-7xl mx-auto px-8 py-12 grid grid-cols-1 xl:grid-cols-3 gap-8">
-        <div className="xl:col-span-2 bg-white rounded-3xl p-8 shadow-xl border border-blue-100">
+        <Reveal className={`xl:col-span-2 ${cardBase} p-8`}>
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-bold">{t.activePrograms}</h2>
             <span className="text-sm text-slate-500 font-semibold">{t.shownOf}</span>
@@ -76,7 +90,7 @@ export default function Dashboard() {
             {PROGRAMS.slice(0, 5).map((program) => (
               <div
                 key={program.name}
-                className="border border-blue-100 rounded-2xl p-5"
+                className="border border-primary-100 rounded-2xl p-5 transition-all duration-200 hover:border-primary-200 hover:shadow-soft"
               >
                 <div className="flex items-start justify-between gap-4">
                   <div>
@@ -98,9 +112,9 @@ export default function Dashboard() {
                 </div>
 
                 <div className="mt-4 flex items-center gap-3">
-                  <div className="flex-1 h-2 bg-blue-50 rounded-full overflow-hidden">
+                  <div className="flex-1 h-2 bg-primary-50 rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-blue-600 rounded-full"
+                      className="h-full bg-primary-600 rounded-full transition-[width] duration-700 ease-out"
                       style={{ width: `${program.progress}%` }}
                     />
                   </div>
@@ -111,9 +125,9 @@ export default function Dashboard() {
               </div>
             ))}
           </div>
-        </div>
+        </Reveal>
 
-        <div className="bg-white rounded-3xl p-8 shadow-xl border border-blue-100">
+        <Reveal delay={0.1} className={`${cardBase} p-8`}>
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-bold">{t.recentRisks}</h2>
             <span className="text-sm text-slate-500 font-semibold">{t.raidLog}</span>
@@ -123,7 +137,7 @@ export default function Dashboard() {
             {RISKS.map((risk) => (
               <div
                 key={risk.title}
-                className="border border-blue-100 rounded-2xl p-4"
+                className="border border-primary-100 rounded-2xl p-4 transition-all duration-200 hover:border-primary-200 hover:shadow-soft"
               >
                 <div className="flex items-start justify-between gap-3">
                   <p className="font-semibold text-sm leading-snug">
@@ -141,7 +155,7 @@ export default function Dashboard() {
               </div>
             ))}
           </div>
-        </div>
+        </Reveal>
       </section>
     </main>
   );

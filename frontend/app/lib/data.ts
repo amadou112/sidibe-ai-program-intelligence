@@ -138,13 +138,13 @@ export const RISKS: Risk[] = [
 ];
 
 export const STATUS_STYLES: Record<string, string> = {
-  "On Track": "bg-emerald-100 text-emerald-700",
-  "At Risk": "bg-amber-100 text-amber-700",
-  Delayed: "bg-rose-100 text-rose-700",
+  "On Track": "bg-success-100 text-success-700",
+  "At Risk": "bg-warning-100 text-warning-700",
+  Delayed: "bg-danger-100 text-danger-700",
 };
 
 export const SEVERITY_STYLES: Record<string, string> = {
-  High: "bg-rose-100 text-rose-700",
-  Medium: "bg-amber-100 text-amber-700",
+  High: "bg-danger-100 text-danger-700",
+  Medium: "bg-warning-100 text-warning-700",
   Low: "bg-slate-100 text-slate-600",
 };

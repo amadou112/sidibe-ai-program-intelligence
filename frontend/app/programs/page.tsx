@@ -2,9 +2,11 @@
 
 import { Clock, User, Layers } from "lucide-react";
 import Header from "../components/Header";
+import Reveal, { RevealStagger, RevealItem } from "../components/Reveal";
 import { PROGRAMS, STATUS_STYLES } from "../lib/data";
 import { useLanguage } from "../lib/LanguageContext";
 import { STATUS_LABELS } from "../lib/translations";
+import { cardBase } from "../lib/ui";
 
 const PROGRAMS_TEXT = {
   en: {
@@ -39,26 +41,28 @@ export default function Programs() {
       <Header active="Programs" />
 
       <section className="max-w-7xl mx-auto px-8 pt-14 pb-6">
-        <p className="text-blue-600 font-bold">{t.tag}</p>
-        <h1 className="text-4xl font-extrabold mt-2">{t.title}</h1>
-        <p className="mt-3 text-slate-700 max-w-2xl">{t.subtitle}</p>
+        <Reveal>
+          <p className="text-primary-600 font-bold">{t.tag}</p>
+          <h1 className="text-4xl font-extrabold mt-2 font-display">{t.title}</h1>
+          <p className="mt-3 text-slate-700 max-w-2xl">{t.subtitle}</p>
+        </Reveal>
       </section>
 
       <section className="max-w-7xl mx-auto px-8">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-          <div className="bg-white rounded-2xl p-6 shadow-xl border border-blue-100">
-            <p className="text-emerald-600 font-semibold text-sm">{statusLabels["On Track"]}</p>
+        <RevealStagger className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+          <RevealItem className={`${cardBase} p-6`}>
+            <p className="text-success-600 font-semibold text-sm">{statusLabels["On Track"]}</p>
             <h3 className="text-3xl font-extrabold mt-1">{onTrack}</h3>
-          </div>
-          <div className="bg-white rounded-2xl p-6 shadow-xl border border-blue-100">
-            <p className="text-amber-600 font-semibold text-sm">{statusLabels["At Risk"]}</p>
+          </RevealItem>
+          <RevealItem className={`${cardBase} p-6`}>
+            <p className="text-warning-600 font-semibold text-sm">{statusLabels["At Risk"]}</p>
             <h3 className="text-3xl font-extrabold mt-1">{atRisk}</h3>
-          </div>
-          <div className="bg-white rounded-2xl p-6 shadow-xl border border-blue-100">
-            <p className="text-rose-600 font-semibold text-sm">{statusLabels.Delayed}</p>
+          </RevealItem>
+          <RevealItem className={`${cardBase} p-6`}>
+            <p className="text-danger-600 font-semibold text-sm">{statusLabels.Delayed}</p>
             <h3 className="text-3xl font-extrabold mt-1">{delayed}</h3>
-          </div>
-        </div>
+          </RevealItem>
+        </RevealStagger>
       </section>
 
       <section className="max-w-7xl mx-auto px-8 py-12">
@@ -67,14 +71,11 @@ export default function Programs() {
           <span className="text-sm text-slate-500 font-semibold">{t.shownOf(PROGRAMS.length)}</span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <RevealStagger className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {PROGRAMS.map((program) => (
-            <div
-              key={program.name}
-              className="bg-white rounded-3xl p-6 shadow-xl border border-blue-100 flex flex-col"
-            >
+            <RevealItem key={program.name} className={`${cardBase} p-6 flex flex-col`}>
               <div className="flex items-start justify-between gap-3">
-                <span className="flex items-center gap-1.5 text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
+                <span className="flex items-center gap-1.5 text-xs font-bold text-primary-600 bg-primary-50 px-3 py-1 rounded-full">
                   <Layers size={12} /> {program.industry}
                 </span>
                 <span
@@ -90,9 +91,9 @@ export default function Programs() {
               </p>
 
               <div className="mt-5 flex items-center gap-3">
-                <div className="flex-1 h-2 bg-blue-50 rounded-full overflow-hidden">
+                <div className="flex-1 h-2 bg-primary-50 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-blue-600 rounded-full"
+                    className="h-full bg-primary-600 rounded-full transition-[width] duration-700 ease-out"
                     style={{ width: `${program.progress}%` }}
                   />
                 </div>
@@ -101,7 +102,7 @@ export default function Programs() {
                 </span>
               </div>
 
-              <div className="flex items-center gap-4 mt-4 text-sm text-slate-500 border-t border-blue-50 pt-4">
+              <div className="flex items-center gap-4 mt-4 text-sm text-slate-500 border-t border-primary-50 pt-4">
                 <span className="flex items-center gap-1">
                   <User size={14} /> {program.owner}
                 </span>
@@ -109,9 +110,9 @@ export default function Programs() {
                   <Clock size={14} /> {t.due} {program.due}
                 </span>
               </div>
-            </div>
+            </RevealItem>
           ))}
-        </div>
+        </RevealStagger>
       </section>
     </main>
   );

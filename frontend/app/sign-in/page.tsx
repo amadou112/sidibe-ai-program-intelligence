@@ -7,6 +7,9 @@ import Link from "next/link";
 import { Mail, Lock, ArrowRight } from "lucide-react";
 import { useLanguage } from "../lib/LanguageContext";
 import { COMMON } from "../lib/translations";
+import Reveal from "../components/Reveal";
+import HeroBlobs from "../components/HeroBlobs";
+import { arrowIconClass } from "../lib/ui";
 
 const SIGN_IN_TEXT = {
   en: {
@@ -45,23 +48,25 @@ export default function SignIn() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f4f9ff] text-slate-950 flex items-center justify-center px-8 py-16 relative">
-      <div className="absolute top-6 right-6 flex items-center gap-1 bg-white border border-blue-100 rounded-xl p-1 shadow-sm">
+    <main className="min-h-screen bg-[#f4f9ff] text-slate-950 flex items-center justify-center px-8 py-16 relative overflow-hidden">
+      <HeroBlobs />
+
+      <div className="absolute top-6 right-6 flex items-center gap-1 bg-white border border-primary-100 rounded-xl p-1 shadow-soft z-10">
         <button
           onClick={() => setLang("en")}
-          className={`px-3 py-1.5 rounded-lg text-xs font-bold ${lang === "en" ? "bg-blue-600 text-white" : "text-slate-600"}`}
+          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${lang === "en" ? "bg-primary-600 text-white" : "text-slate-600"}`}
         >
           EN
         </button>
         <button
           onClick={() => setLang("fr")}
-          className={`px-3 py-1.5 rounded-lg text-xs font-bold ${lang === "fr" ? "bg-blue-600 text-white" : "text-slate-600"}`}
+          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${lang === "fr" ? "bg-primary-600 text-white" : "text-slate-600"}`}
         >
           FR
         </button>
       </div>
 
-      <div className="w-full max-w-md">
+      <Reveal className="relative w-full max-w-md">
         <div className="flex flex-col items-center text-center mb-8">
           <Link href="/">
             <Image
@@ -72,13 +77,13 @@ export default function SignIn() {
               className="h-32 w-auto object-contain"
             />
           </Link>
-          <h1 className="text-3xl font-extrabold mt-4">{t.welcome}</h1>
+          <h1 className="text-3xl font-extrabold mt-4 font-display">{t.welcome}</h1>
           <p className="text-slate-600 mt-2">{t.subtitle}</p>
         </div>
 
         <form
           onSubmit={handleSubmit}
-          className="bg-white rounded-3xl p-8 shadow-xl border border-blue-100 space-y-5"
+          className="glass-surface rounded-3xl p-8 space-y-5"
         >
           <div>
             <label className="text-sm font-semibold text-slate-700">{t.email}</label>
@@ -90,7 +95,7 @@ export default function SignIn() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@company.com"
-                className="w-full border border-blue-100 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
+                className="w-full border border-primary-100 rounded-xl pl-10 pr-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary-200 transition-shadow"
               />
             </div>
           </div>
@@ -105,7 +110,7 @@ export default function SignIn() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full border border-blue-100 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
+                className="w-full border border-primary-100 rounded-xl pl-10 pr-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary-200 transition-shadow"
               />
             </div>
           </div>
@@ -113,20 +118,20 @@ export default function SignIn() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-70 text-white px-7 py-4 rounded-xl font-bold flex items-center justify-center gap-2"
+            className="w-full bg-primary-600 hover:bg-primary-700 disabled:opacity-70 disabled:hover:translate-y-0 text-white px-7 py-4 rounded-xl font-bold flex items-center justify-center gap-2 shadow-glow transition-all duration-200 hover:-translate-y-0.5 active:scale-95 group"
           >
-            {isSubmitting ? t.signingIn : common.signIn} <ArrowRight size={18} />
+            {isSubmitting ? t.signingIn : common.signIn} <ArrowRight size={18} className={arrowIconClass} />
           </button>
 
           <p className="text-xs text-center text-slate-500">{t.demoNote}</p>
         </form>
 
         <p className="text-center text-sm text-slate-600 mt-6">
-          <Link href="/" className="font-semibold text-blue-600">
+          <Link href="/" className="font-semibold text-primary-600 hover:text-primary-700 transition-colors">
             &larr; {common.backToHome}
           </Link>
         </p>
-      </div>
+      </Reveal>
     </main>
   );
 }

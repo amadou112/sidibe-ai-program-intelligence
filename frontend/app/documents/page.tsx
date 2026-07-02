@@ -12,11 +12,13 @@ import {
 } from "lucide-react";
 import Header from "../components/Header";
 import Metric from "../components/Metric";
+import Reveal, { RevealStagger, RevealItem } from "../components/Reveal";
 import { CATEGORIES, DOCUMENTS } from "../lib/documents";
 import type { DocumentItem } from "../lib/documents";
 import { CategoryIcon, FileTypeIcon } from "../lib/fileIcons";
 import { useLanguage } from "../lib/LanguageContext";
 import { CATEGORY_LABELS } from "../lib/translations";
+import { cardStatic, btnCompact } from "../lib/ui";
 
 const ACCEPTED_TYPES =
   ".pdf,.doc,.docx,.txt,.csv,.xlsx,.xls,.json,.xml,.png,.jpg,.jpeg,.ppt,.pptx,.zip";
@@ -130,74 +132,84 @@ export default function Documents() {
       <Header active="Documents" />
 
       <section className="max-w-7xl mx-auto px-8 pt-14 pb-6">
-        <p className="text-blue-600 font-bold">{t.tag}</p>
-        <h1 className="text-4xl font-extrabold mt-2">{t.title}</h1>
-        <p className="mt-3 text-slate-700 max-w-2xl">{t.subtitle}</p>
+        <Reveal>
+          <p className="text-primary-600 font-bold">{t.tag}</p>
+          <h1 className="text-4xl font-extrabold mt-2 font-display">{t.title}</h1>
+          <p className="mt-3 text-slate-700 max-w-2xl">{t.subtitle}</p>
+        </Reveal>
       </section>
 
       <section className="max-w-7xl mx-auto px-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          <Metric icon={<FileText />} title={t.totalDocuments} value={String(documents.length)} />
-          <Metric icon={<CheckCircle2 />} title={t.aiProcessed} value={String(processedCount)} />
-          <Metric icon={<Folders />} title={t.categories} value={String(CATEGORIES.length)} />
-          <Metric icon={<HardDrive />} title={t.storageUsed} value="4.2 GB" />
-        </div>
+        <RevealStagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <RevealItem>
+            <Metric icon={<FileText />} title={t.totalDocuments} value={String(documents.length)} />
+          </RevealItem>
+          <RevealItem>
+            <Metric icon={<CheckCircle2 />} title={t.aiProcessed} value={String(processedCount)} />
+          </RevealItem>
+          <RevealItem>
+            <Metric icon={<Folders />} title={t.categories} value={String(CATEGORIES.length)} />
+          </RevealItem>
+          <RevealItem>
+            <Metric icon={<HardDrive />} title={t.storageUsed} value="4.2 GB" />
+          </RevealItem>
+        </RevealStagger>
       </section>
 
       <section className="max-w-7xl mx-auto px-8 pt-10">
-        <div
-          onDragOver={(e) => {
-            e.preventDefault();
-            setIsDragging(true);
-          }}
-          onDragLeave={() => setIsDragging(false)}
-          onDrop={(e) => {
-            e.preventDefault();
-            setIsDragging(false);
-            handleFiles(e.dataTransfer.files);
-          }}
-          className={`rounded-3xl border-2 border-dashed p-10 text-center transition-colors ${
-            isDragging ? "border-blue-500 bg-blue-50" : "border-blue-200 bg-white"
+        <Reveal
+          className={`rounded-3xl border-2 border-dashed p-10 text-center transition-colors duration-200 ${
+            isDragging ? "border-primary-500 bg-primary-50" : "border-primary-200 bg-white"
           }`}
         >
-          <div className="mx-auto w-14 h-14 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center">
-            <UploadCloud size={26} />
-          </div>
-          <p className="mt-4 font-bold">{t.dragDrop}</p>
-          <p className="text-sm text-slate-500 mt-1">{t.supports}</p>
+          <div
+            onDragOver={(e) => {
+              e.preventDefault();
+              setIsDragging(true);
+            }}
+            onDragLeave={() => setIsDragging(false)}
+            onDrop={(e) => {
+              e.preventDefault();
+              setIsDragging(false);
+              handleFiles(e.dataTransfer.files);
+            }}
+          >
+            <div className="mx-auto w-14 h-14 rounded-2xl bg-primary-100 text-primary-600 flex items-center justify-center transition-transform duration-200">
+              <UploadCloud size={26} />
+            </div>
+            <p className="mt-4 font-bold">{t.dragDrop}</p>
+            <p className="text-sm text-slate-500 mt-1">{t.supports}</p>
 
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-            <select
-              value={uploadCategory}
-              onChange={(e) => setUploadCategory(e.target.value)}
-              className="border border-blue-200 rounded-xl px-4 py-3 text-sm font-semibold text-slate-700"
-            >
-              {CATEGORIES.map((cat) => (
-                <option key={cat} value={cat}>
-                  {categoryLabels[cat]}
-                </option>
-              ))}
-            </select>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+              <select
+                value={uploadCategory}
+                onChange={(e) => setUploadCategory(e.target.value)}
+                className="border border-primary-200 rounded-xl px-4 py-3 text-sm font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-200"
+              >
+                {CATEGORIES.map((cat) => (
+                  <option key={cat} value={cat}>
+                    {categoryLabels[cat]}
+                  </option>
+                ))}
+              </select>
 
-            <button
-              onClick={() => fileInputRef.current?.click()}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold"
-            >
-              {t.browseFiles}
-            </button>
-            <input
-              ref={fileInputRef}
-              type="file"
-              multiple
-              accept={ACCEPTED_TYPES}
-              className="hidden"
-              onChange={(e) => {
-                handleFiles(e.target.files);
-                e.target.value = "";
-              }}
-            />
+              <button onClick={() => fileInputRef.current?.click()} className={btnCompact}>
+                {t.browseFiles}
+              </button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                multiple
+                accept={ACCEPTED_TYPES}
+                className="hidden"
+                onChange={(e) => {
+                  handleFiles(e.target.files);
+                  e.target.value = "";
+                }}
+              />
+            </div>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       <section className="max-w-7xl mx-auto px-8 py-10">
@@ -205,10 +217,10 @@ export default function Documents() {
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => setActiveCategory("All")}
-              className={`text-sm font-semibold px-4 py-2 rounded-full border ${
+              className={`text-sm font-semibold px-4 py-2 rounded-full border transition-all duration-200 ${
                 activeCategory === "All"
-                  ? "bg-blue-600 text-white border-blue-600"
-                  : "bg-white text-slate-700 border-blue-100"
+                  ? "bg-primary-600 text-white border-primary-600"
+                  : "bg-white text-slate-700 border-primary-100 hover:border-primary-300"
               }`}
             >
               {t.all} ({documents.length})
@@ -217,10 +229,10 @@ export default function Documents() {
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`text-sm font-semibold px-4 py-2 rounded-full border ${
+                className={`text-sm font-semibold px-4 py-2 rounded-full border transition-all duration-200 ${
                   activeCategory === cat
-                    ? "bg-blue-600 text-white border-blue-600"
-                    : "bg-white text-slate-700 border-blue-100"
+                    ? "bg-primary-600 text-white border-primary-600"
+                    : "bg-white text-slate-700 border-primary-100 hover:border-primary-300"
                 }`}
               >
                 {categoryLabels[cat]} ({documents.filter((d) => d.category === cat).length})
@@ -234,7 +246,7 @@ export default function Documents() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder={t.search}
-              className="w-full border border-blue-100 rounded-xl pl-10 pr-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-200"
+              className="w-full border border-primary-100 rounded-xl pl-10 pr-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary-200"
             />
           </div>
         </div>
@@ -251,7 +263,7 @@ export default function Documents() {
             return (
               <div key={category}>
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="text-blue-600 bg-blue-100 w-9 h-9 rounded-xl flex items-center justify-center">
+                  <div className="text-primary-600 bg-primary-100 w-9 h-9 rounded-xl flex items-center justify-center">
                     <CategoryIcon category={category} size={18} />
                   </div>
                   <h2 className="font-bold text-lg">{categoryLabels[category]}</h2>
@@ -260,13 +272,13 @@ export default function Documents() {
                   </span>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <RevealStagger className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {docs.map((doc) => (
-                    <div
+                    <RevealItem
                       key={doc.id}
-                      className="bg-white border border-blue-100 rounded-2xl p-4 flex items-start gap-4 shadow-xl"
+                      className={`${cardStatic} p-4 flex items-start gap-4`}
                     >
-                      <div className="text-blue-600 bg-blue-100 w-11 h-11 rounded-xl flex items-center justify-center shrink-0">
+                      <div className="text-primary-600 bg-primary-100 w-11 h-11 rounded-xl flex items-center justify-center shrink-0">
                         <FileTypeIcon extension={doc.extension} size={20} />
                       </div>
 
@@ -274,11 +286,11 @@ export default function Documents() {
                         <div className="flex items-start justify-between gap-3">
                           <p className="font-semibold text-sm truncate">{doc.name}</p>
                           {doc.status === "Processing" ? (
-                            <span className="flex items-center gap-1.5 text-xs font-bold text-amber-700 bg-amber-100 px-2.5 py-1 rounded-full whitespace-nowrap">
+                            <span className="flex items-center gap-1.5 text-xs font-bold text-warning-700 bg-warning-100 px-2.5 py-1 rounded-full whitespace-nowrap">
                               <Loader2 size={12} className="animate-spin" /> {t.processing}
                             </span>
                           ) : (
-                            <span className="flex items-center gap-1.5 text-xs font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full whitespace-nowrap">
+                            <span className="flex items-center gap-1.5 text-xs font-bold text-success-700 bg-success-100 px-2.5 py-1 rounded-full whitespace-nowrap">
                               <CheckCircle2 size={12} /> {t.processed}
                             </span>
                           )}
@@ -292,9 +304,9 @@ export default function Documents() {
                           <p className="text-sm text-slate-600 mt-2">{doc.summary}</p>
                         )}
                       </div>
-                    </div>
+                    </RevealItem>
                   ))}
-                </div>
+                </RevealStagger>
               </div>
             );
           })}

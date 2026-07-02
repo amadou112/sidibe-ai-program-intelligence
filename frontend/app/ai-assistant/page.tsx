@@ -14,8 +14,10 @@ import {
   VolumeX,
 } from "lucide-react";
 import Header from "../components/Header";
+import Reveal from "../components/Reveal";
 import { getAssistantReply } from "../lib/assistant";
 import { useLanguage, type Lang } from "../lib/LanguageContext";
+import { cardBase } from "../lib/ui";
 
 type Message = {
   role: "user" | "assistant";
@@ -184,21 +186,23 @@ export default function AIAssistant() {
       <Header active="AI Assistant" />
 
       <section className="max-w-7xl mx-auto px-8 pt-14 pb-6">
-        <p className="text-blue-600 font-bold">{t.tag}</p>
-        <h1 className="text-4xl font-extrabold mt-2">{t.title}</h1>
-        <p className="mt-3 text-slate-700 max-w-2xl">{t.subtitle}</p>
+        <Reveal>
+          <p className="text-primary-600 font-bold">{t.tag}</p>
+          <h1 className="text-4xl font-extrabold mt-2 font-display">{t.title}</h1>
+          <p className="mt-3 text-slate-700 max-w-2xl">{t.subtitle}</p>
+        </Reveal>
       </section>
 
       <section className="max-w-7xl mx-auto px-8 pb-20 grid grid-cols-1 xl:grid-cols-4 gap-8">
-        <div className="xl:col-span-1 space-y-6">
-          <div className="bg-white rounded-3xl p-6 shadow-xl border border-blue-100">
-            <p className="text-blue-600 font-bold text-sm mb-4">{t.suggested}</p>
+        <Reveal className="xl:col-span-1 space-y-6">
+          <div className={`${cardBase} p-6`}>
+            <p className="text-primary-600 font-bold text-sm mb-4">{t.suggested}</p>
             <div className="space-y-2">
               {SUGGESTED_PROMPTS[lang].map((prompt) => (
                 <button
                   key={prompt}
                   onClick={() => sendMessage(prompt)}
-                  className="w-full text-left text-sm font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-xl px-4 py-3"
+                  className="w-full text-left text-sm font-semibold text-primary-700 bg-primary-50 hover:bg-primary-100 rounded-xl px-4 py-3 transition-colors"
                 >
                   {prompt}
                 </button>
@@ -206,12 +210,12 @@ export default function AIAssistant() {
             </div>
           </div>
 
-          <div className="bg-white rounded-3xl p-6 shadow-xl border border-blue-100">
-            <p className="text-blue-600 font-bold text-sm mb-4">{t.capabilities}</p>
+          <div className={`${cardBase} p-6`}>
+            <p className="text-primary-600 font-bold text-sm mb-4">{t.capabilities}</p>
             <div className="space-y-3">
               {CAPABILITIES[lang].map((cap) => (
                 <div key={cap.label} className="flex items-center gap-3 text-sm font-semibold text-slate-700">
-                  <div className="text-blue-600 bg-blue-100 w-9 h-9 rounded-xl flex items-center justify-center shrink-0">
+                  <div className="text-primary-600 bg-primary-100 w-9 h-9 rounded-xl flex items-center justify-center shrink-0">
                     {cap.icon}
                   </div>
                   {cap.label}
@@ -219,22 +223,22 @@ export default function AIAssistant() {
               ))}
             </div>
           </div>
-        </div>
+        </Reveal>
 
-        <div className="xl:col-span-3 bg-white rounded-3xl shadow-xl border border-blue-100 flex flex-col h-[640px]">
-          <div className="flex items-center justify-between gap-3 px-6 py-5 border-b border-blue-50">
+        <Reveal delay={0.1} className="xl:col-span-3 bg-white rounded-3xl shadow-soft border border-primary-100 flex flex-col h-[640px]">
+          <div className="flex items-center justify-between gap-3 px-6 py-5 border-b border-primary-50">
             <div className="flex items-center gap-3">
               <Image
                 src="/bot/mamadou.jpg"
                 alt="Mamadou"
                 width={88}
                 height={88}
-                className="w-11 h-11 rounded-2xl object-cover bg-blue-100"
+                className="w-11 h-11 rounded-2xl object-cover bg-primary-100"
               />
               <div>
                 <p className="font-bold">Mamadou</p>
-                <p className="text-xs text-emerald-600 font-semibold flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                <p className="text-xs text-success-600 font-semibold flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-success-500" />
                   {isListening ? t.listening : t.online}
                 </p>
               </div>
@@ -243,7 +247,7 @@ export default function AIAssistant() {
             <button
               onClick={() => setVoiceEnabled((v) => !v)}
               title={voiceEnabled ? "Mute voice replies" : "Unmute voice replies"}
-              className="text-slate-500 hover:text-blue-600 w-9 h-9 rounded-xl flex items-center justify-center border border-blue-100"
+              className="text-slate-500 hover:text-primary-600 w-9 h-9 rounded-xl flex items-center justify-center border border-primary-100 transition-colors"
             >
               {voiceEnabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
             </button>
@@ -258,8 +262,8 @@ export default function AIAssistant() {
                 <p
                   className={`max-w-[75%] whitespace-pre-line text-sm px-4 py-3 rounded-2xl ${
                     message.role === "user"
-                      ? "bg-blue-600 text-white rounded-br-sm"
-                      : "bg-blue-50 text-slate-800 rounded-bl-sm"
+                      ? "bg-primary-600 text-white rounded-br-sm"
+                      : "bg-primary-50 text-slate-800 rounded-bl-sm"
                   }`}
                 >
                   {message.text}
@@ -269,7 +273,7 @@ export default function AIAssistant() {
 
             {isThinking && (
               <div className="flex justify-start">
-                <p className="bg-blue-50 text-slate-500 text-sm px-4 py-3 rounded-2xl rounded-bl-sm">
+                <p className="bg-primary-50 text-slate-500 text-sm px-4 py-3 rounded-2xl rounded-bl-sm">
                   {t.thinking}
                 </p>
               </div>
@@ -281,18 +285,18 @@ export default function AIAssistant() {
               e.preventDefault();
               sendMessage(input);
             }}
-            className="flex items-center gap-3 border-t border-blue-50 p-4"
+            className="flex items-center gap-3 border-t border-primary-50 p-4"
           >
             <button
               type="button"
               onClick={toggleListening}
               disabled={!micSupported}
               title={micSupported ? "Speak to Mamadou" : t.micUnsupported}
-              className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 border ${
+              className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 border transition-all duration-200 ${
                 isListening
-                  ? "bg-rose-600 text-white border-rose-600 animate-pulse"
+                  ? "bg-danger-600 text-white border-danger-600 animate-pulse"
                   : micSupported
-                  ? "bg-white text-blue-600 border-blue-100 hover:bg-blue-50"
+                  ? "bg-white text-primary-600 border-primary-100 hover:bg-primary-50 hover:-translate-y-0.5"
                   : "bg-slate-50 text-slate-300 border-slate-100 cursor-not-allowed"
               }`}
             >
@@ -303,16 +307,16 @@ export default function AIAssistant() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder={t.placeholder}
-              className="flex-1 border border-blue-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
+              className="flex-1 border border-primary-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-200"
             />
             <button
               type="submit"
-              className="bg-blue-600 hover:bg-blue-700 text-white w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
+              className="bg-primary-600 hover:bg-primary-700 text-white w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-all duration-200 hover:-translate-y-0.5 active:scale-95"
             >
               <Send size={18} />
             </button>
           </form>
-        </div>
+        </Reveal>
       </section>
     </main>
   );
