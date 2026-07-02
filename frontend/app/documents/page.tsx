@@ -15,9 +15,52 @@ import Metric from "../components/Metric";
 import { CATEGORIES, DOCUMENTS } from "../lib/documents";
 import type { DocumentItem } from "../lib/documents";
 import { CategoryIcon, FileTypeIcon } from "../lib/fileIcons";
+import { useLanguage } from "../lib/LanguageContext";
+import { CATEGORY_LABELS } from "../lib/translations";
 
 const ACCEPTED_TYPES =
   ".pdf,.doc,.docx,.txt,.csv,.xlsx,.xls,.json,.xml,.png,.jpg,.jpeg,.ppt,.pptx,.zip";
+
+const DOCUMENTS_TEXT = {
+  en: {
+    tag: "DOCUMENT INTELLIGENCE",
+    title: "Documents",
+    subtitle:
+      "Upload structured data (CSV, XLSX, JSON) or unstructured documents (PDF, DOCX, images, presentations) and let the AI pipeline classify, summarize, and index them automatically.",
+    totalDocuments: "Total Documents",
+    aiProcessed: "AI-Processed",
+    categories: "Categories",
+    storageUsed: "Storage Used",
+    dragDrop: "Drag & drop files here",
+    supports: "Supports structured and unstructured data: PDF, DOCX, TXT, CSV, XLSX, JSON, XML, PNG, JPG, PPTX, ZIP",
+    browseFiles: "Browse Files",
+    all: "All",
+    search: "Search documents...",
+    document: "document",
+    documents: "documents",
+    processing: "Processing",
+    processed: "Processed",
+  },
+  fr: {
+    tag: "INTELLIGENCE DOCUMENTAIRE",
+    title: "Documents",
+    subtitle:
+      "Téléversez des données structurées (CSV, XLSX, JSON) ou des documents non structurés (PDF, DOCX, images, présentations) et laissez le pipeline IA les classer, résumer et indexer automatiquement.",
+    totalDocuments: "Documents Totaux",
+    aiProcessed: "Traités par l'IA",
+    categories: "Catégories",
+    storageUsed: "Stockage Utilisé",
+    dragDrop: "Glissez-déposez des fichiers ici",
+    supports: "Prend en charge les données structurées et non structurées : PDF, DOCX, TXT, CSV, XLSX, JSON, XML, PNG, JPG, PPTX, ZIP",
+    browseFiles: "Parcourir les fichiers",
+    all: "Tous",
+    search: "Rechercher des documents...",
+    document: "document",
+    documents: "documents",
+    processing: "Traitement",
+    processed: "Traité",
+  },
+};
 
 function formatBytes(bytes: number) {
   if (bytes === 0) return "0 KB";
@@ -27,6 +70,9 @@ function formatBytes(bytes: number) {
 }
 
 export default function Documents() {
+  const { lang } = useLanguage();
+  const t = DOCUMENTS_TEXT[lang];
+  const categoryLabels = CATEGORY_LABELS[lang];
   const [documents, setDocuments] = useState<DocumentItem[]>(DOCUMENTS);
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState("");
@@ -84,21 +130,17 @@ export default function Documents() {
       <Header active="Documents" />
 
       <section className="max-w-7xl mx-auto px-8 pt-14 pb-6">
-        <p className="text-blue-600 font-bold">DOCUMENT INTELLIGENCE</p>
-        <h1 className="text-4xl font-extrabold mt-2">Documents</h1>
-        <p className="mt-3 text-slate-700 max-w-2xl">
-          Upload structured data (CSV, XLSX, JSON) or unstructured documents
-          (PDF, DOCX, images, presentations) and let the AI pipeline
-          classify, summarize, and index them automatically.
-        </p>
+        <p className="text-blue-600 font-bold">{t.tag}</p>
+        <h1 className="text-4xl font-extrabold mt-2">{t.title}</h1>
+        <p className="mt-3 text-slate-700 max-w-2xl">{t.subtitle}</p>
       </section>
 
       <section className="max-w-7xl mx-auto px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          <Metric icon={<FileText />} title="Total Documents" value={String(documents.length)} />
-          <Metric icon={<CheckCircle2 />} title="AI-Processed" value={String(processedCount)} />
-          <Metric icon={<Folders />} title="Categories" value={String(CATEGORIES.length)} />
-          <Metric icon={<HardDrive />} title="Storage Used" value="4.2 GB" />
+          <Metric icon={<FileText />} title={t.totalDocuments} value={String(documents.length)} />
+          <Metric icon={<CheckCircle2 />} title={t.aiProcessed} value={String(processedCount)} />
+          <Metric icon={<Folders />} title={t.categories} value={String(CATEGORIES.length)} />
+          <Metric icon={<HardDrive />} title={t.storageUsed} value="4.2 GB" />
         </div>
       </section>
 
@@ -121,10 +163,8 @@ export default function Documents() {
           <div className="mx-auto w-14 h-14 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center">
             <UploadCloud size={26} />
           </div>
-          <p className="mt-4 font-bold">Drag & drop files here</p>
-          <p className="text-sm text-slate-500 mt-1">
-            Supports structured and unstructured data: PDF, DOCX, TXT, CSV, XLSX, JSON, XML, PNG, JPG, PPTX, ZIP
-          </p>
+          <p className="mt-4 font-bold">{t.dragDrop}</p>
+          <p className="text-sm text-slate-500 mt-1">{t.supports}</p>
 
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <select
@@ -134,7 +174,7 @@ export default function Documents() {
             >
               {CATEGORIES.map((cat) => (
                 <option key={cat} value={cat}>
-                  {cat}
+                  {categoryLabels[cat]}
                 </option>
               ))}
             </select>
@@ -143,7 +183,7 @@ export default function Documents() {
               onClick={() => fileInputRef.current?.click()}
               className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold"
             >
-              Browse Files
+              {t.browseFiles}
             </button>
             <input
               ref={fileInputRef}
@@ -171,7 +211,7 @@ export default function Documents() {
                   : "bg-white text-slate-700 border-blue-100"
               }`}
             >
-              All ({documents.length})
+              {t.all} ({documents.length})
             </button>
             {CATEGORIES.map((cat) => (
               <button
@@ -183,7 +223,7 @@ export default function Documents() {
                     : "bg-white text-slate-700 border-blue-100"
                 }`}
               >
-                {cat} ({documents.filter((d) => d.category === cat).length})
+                {categoryLabels[cat]} ({documents.filter((d) => d.category === cat).length})
               </button>
             ))}
           </div>
@@ -193,7 +233,7 @@ export default function Documents() {
             <input
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search documents..."
+              placeholder={t.search}
               className="w-full border border-blue-100 rounded-xl pl-10 pr-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-200"
             />
           </div>
@@ -214,9 +254,9 @@ export default function Documents() {
                   <div className="text-blue-600 bg-blue-100 w-9 h-9 rounded-xl flex items-center justify-center">
                     <CategoryIcon category={category} size={18} />
                   </div>
-                  <h2 className="font-bold text-lg">{category}</h2>
+                  <h2 className="font-bold text-lg">{categoryLabels[category]}</h2>
                   <span className="text-sm text-slate-500 font-semibold">
-                    {docs.length} document{docs.length === 1 ? "" : "s"}
+                    {docs.length} {docs.length === 1 ? t.document : t.documents}
                   </span>
                 </div>
 
@@ -235,11 +275,11 @@ export default function Documents() {
                           <p className="font-semibold text-sm truncate">{doc.name}</p>
                           {doc.status === "Processing" ? (
                             <span className="flex items-center gap-1.5 text-xs font-bold text-amber-700 bg-amber-100 px-2.5 py-1 rounded-full whitespace-nowrap">
-                              <Loader2 size={12} className="animate-spin" /> Processing
+                              <Loader2 size={12} className="animate-spin" /> {t.processing}
                             </span>
                           ) : (
                             <span className="flex items-center gap-1.5 text-xs font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full whitespace-nowrap">
-                              <CheckCircle2 size={12} /> Processed
+                              <CheckCircle2 size={12} /> {t.processed}
                             </span>
                           )}
                         </div>

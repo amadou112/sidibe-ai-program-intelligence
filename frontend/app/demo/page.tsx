@@ -4,23 +4,43 @@ import { useState } from "react";
 import { Play, Pause, Clock, CheckCircle } from "lucide-react";
 import Header from "../components/Header";
 import { DEMO_TOPICS } from "../lib/demos";
+import { useLanguage } from "../lib/LanguageContext";
+
+const DEMO_TEXT = {
+  en: {
+    tag: "WATCH DEMO",
+    title: "See the Platform in Action",
+    subtitle:
+      "A guided walkthrough of the AI concepts powering Sidibe Enterprises — from the machine learning models under the hood to how they show up in the AI Assistant.",
+    moreTopics: "More Topics",
+    nowPlaying: "Now Playing",
+    watch: "Watch",
+  },
+  fr: {
+    tag: "VOIR LA DÉMO",
+    title: "La Plateforme en Action",
+    subtitle:
+      "Une visite guidée des concepts d'IA qui font fonctionner Sidibe Enterprises — des modèles d'apprentissage automatique en coulisses jusqu'à leur intégration dans l'Assistant IA.",
+    moreTopics: "Plus de Sujets",
+    nowPlaying: "En cours de lecture",
+    watch: "Regarder",
+  },
+};
 
 export default function Demo() {
+  const { lang } = useLanguage();
+  const t = DEMO_TEXT[lang];
   const [activeId, setActiveId] = useState<string>(DEMO_TOPICS[0].id);
-  const active = DEMO_TOPICS.find((t) => t.id === activeId)!;
+  const active = DEMO_TOPICS.find((topic) => topic.id === activeId)!;
 
   return (
     <main className="min-h-screen bg-[#f4f9ff] text-slate-950">
       <Header active="" />
 
       <section className="max-w-7xl mx-auto px-8 pt-14 pb-6">
-        <p className="text-blue-600 font-bold">WATCH DEMO</p>
-        <h1 className="text-4xl font-extrabold mt-2">See the Platform in Action</h1>
-        <p className="mt-3 text-slate-700 max-w-2xl">
-          A guided walkthrough of the AI concepts powering Sidibe Enterprises —
-          from the machine learning models under the hood to how they show up
-          in the AI Assistant.
-        </p>
+        <p className="text-blue-600 font-bold">{t.tag}</p>
+        <h1 className="text-4xl font-extrabold mt-2">{t.title}</h1>
+        <p className="mt-3 text-slate-700 max-w-2xl">{t.subtitle}</p>
       </section>
 
       <section className="max-w-7xl mx-auto px-8 pb-20">
@@ -55,7 +75,7 @@ export default function Demo() {
           </div>
         </div>
 
-        <h3 className="text-xl font-bold mt-12 mb-6">More Topics</h3>
+        <h3 className="text-xl font-bold mt-12 mb-6">{t.moreTopics}</h3>
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {DEMO_TOPICS.map((topic) => (
@@ -83,11 +103,11 @@ export default function Demo() {
               <span className="inline-flex items-center gap-1.5 text-sm font-bold text-blue-600 mt-4">
                 {topic.id === activeId ? (
                   <>
-                    <Pause size={14} /> Now Playing
+                    <Pause size={14} /> {t.nowPlaying}
                   </>
                 ) : (
                   <>
-                    <Play size={14} /> Watch
+                    <Play size={14} /> {t.watch}
                   </>
                 )}
               </span>

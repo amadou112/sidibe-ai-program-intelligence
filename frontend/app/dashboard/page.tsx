@@ -1,3 +1,5 @@
+"use client";
+
 import {
   FolderKanban,
   FileText,
@@ -10,38 +12,64 @@ import {
 import Header from "../components/Header";
 import Metric from "../components/Metric";
 import { PROGRAMS, RISKS, STATUS_STYLES, SEVERITY_STYLES } from "../lib/data";
+import { useLanguage } from "../lib/LanguageContext";
+import { METRIC_LABELS, STATUS_LABELS, SEVERITY_LABELS } from "../lib/translations";
+
+const DASHBOARD_TEXT = {
+  en: {
+    tag: "EXECUTIVE OVERVIEW",
+    title: "Program Dashboard",
+    subtitle: "Real-time visibility into program health, delivery progress, and active risks across the portfolio.",
+    activePrograms: "Active Programs",
+    shownOf: "5 shown of 24",
+    due: "Due",
+    recentRisks: "Recent Risks",
+    raidLog: "RAID log",
+  },
+  fr: {
+    tag: "APERÇU EXÉCUTIF",
+    title: "Tableau de Bord des Programmes",
+    subtitle: "Visibilité en temps réel sur la santé des programmes, l'avancement de la livraison et les risques actifs du portefeuille.",
+    activePrograms: "Programmes Actifs",
+    shownOf: "5 affichés sur 24",
+    due: "Échéance",
+    recentRisks: "Risques Récents",
+    raidLog: "Journal RAID",
+  },
+};
 
 export default function Dashboard() {
+  const { lang } = useLanguage();
+  const t = DASHBOARD_TEXT[lang];
+  const metricLabels = METRIC_LABELS[lang];
+  const statusLabels = STATUS_LABELS[lang];
+  const severityLabels = SEVERITY_LABELS[lang];
+
   return (
     <main className="min-h-screen bg-[#f4f9ff] text-slate-950">
       <Header active="Dashboard" />
 
       <section className="max-w-7xl mx-auto px-8 pt-14 pb-6">
-        <p className="text-blue-600 font-bold">EXECUTIVE OVERVIEW</p>
-        <h1 className="text-4xl font-extrabold mt-2">Program Dashboard</h1>
-        <p className="mt-3 text-slate-700 max-w-2xl">
-          Real-time visibility into program health, delivery progress, and
-          active risks across the portfolio.
-        </p>
+        <p className="text-blue-600 font-bold">{t.tag}</p>
+        <h1 className="text-4xl font-extrabold mt-2">{t.title}</h1>
+        <p className="mt-3 text-slate-700 max-w-2xl">{t.subtitle}</p>
       </section>
 
       <section className="max-w-7xl mx-auto px-8">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-5">
-          <Metric icon={<FolderKanban />} title="Programs" value="24" />
-          <Metric icon={<FileText />} title="Documents" value="1,248" />
-          <Metric icon={<AlertTriangle />} title="Risks" value="18" />
-          <Metric icon={<CheckCircle />} title="Tasks" value="324" />
-          <Metric icon={<Brain />} title="AI Insights" value="95%" />
+          <Metric icon={<FolderKanban />} title={metricLabels.Programs} value="24" />
+          <Metric icon={<FileText />} title={metricLabels.Documents} value="1,248" />
+          <Metric icon={<AlertTriangle />} title={metricLabels.Risks} value="18" />
+          <Metric icon={<CheckCircle />} title={metricLabels.Tasks} value="324" />
+          <Metric icon={<Brain />} title={metricLabels["AI Insights"]} value="95%" />
         </div>
       </section>
 
       <section className="max-w-7xl mx-auto px-8 py-12 grid grid-cols-1 xl:grid-cols-3 gap-8">
         <div className="xl:col-span-2 bg-white rounded-3xl p-8 shadow-xl border border-blue-100">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-bold">Active Programs</h2>
-            <span className="text-sm text-slate-500 font-semibold">
-              5 shown of 24
-            </span>
+            <h2 className="text-xl font-bold">{t.activePrograms}</h2>
+            <span className="text-sm text-slate-500 font-semibold">{t.shownOf}</span>
           </div>
 
           <div className="space-y-5">
@@ -58,14 +86,14 @@ export default function Dashboard() {
                         <User size={14} /> {program.owner}
                       </span>
                       <span className="flex items-center gap-1">
-                        <Clock size={14} /> Due {program.due}
+                        <Clock size={14} /> {t.due} {program.due}
                       </span>
                     </div>
                   </div>
                   <span
                     className={`text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap ${STATUS_STYLES[program.status]}`}
                   >
-                    {program.status}
+                    {statusLabels[program.status]}
                   </span>
                 </div>
 
@@ -87,8 +115,8 @@ export default function Dashboard() {
 
         <div className="bg-white rounded-3xl p-8 shadow-xl border border-blue-100">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-bold">Recent Risks</h2>
-            <span className="text-sm text-slate-500 font-semibold">RAID log</span>
+            <h2 className="text-xl font-bold">{t.recentRisks}</h2>
+            <span className="text-sm text-slate-500 font-semibold">{t.raidLog}</span>
           </div>
 
           <div className="space-y-4">
@@ -104,7 +132,7 @@ export default function Dashboard() {
                   <span
                     className={`text-xs font-bold px-2.5 py-1 rounded-full whitespace-nowrap ${SEVERITY_STYLES[risk.severity]}`}
                   >
-                    {risk.severity}
+                    {severityLabels[risk.severity]}
                   </span>
                 </div>
                 <p className="text-xs text-slate-500 mt-2">
