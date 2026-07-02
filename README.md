@@ -143,4 +143,4 @@ Experienced in delivering enterprise software solutions, Agile Program Managemen
 
 **https://frontend-sandy-nine-57.vercel.app**
 
-If you're a recruiter or hiring manager, feel free to explore the live application and the source code to see how modern AI technologies can be applied to enterprise Program Management.
+
