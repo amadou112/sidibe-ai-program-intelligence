@@ -27,7 +27,7 @@ export default async function TechnologyPage({
 
       <section className="max-w-7xl mx-auto px-8 pt-14 pb-6">
         <Reveal>
-          <Link href="/#tech-stack" className="text-sm font-semibold text-primary-600 hover:text-primary-700 transition-colors">
+          <Link href="/#tech-stack" className="link-underline text-sm font-semibold text-primary-600 hover:text-primary-700 transition-colors">
             &larr; Our AI Technology Stack
           </Link>
 
@@ -71,7 +71,7 @@ export default async function TechnologyPage({
             <h3 className="text-2xl font-extrabold mt-1">{tech.category}</h3>
           </div>
 
-          <div className="bg-primary-600 rounded-3xl p-6 shadow-glow text-white">
+          <div className="bg-cta-gradient bg-grain rounded-3xl p-6 shadow-glow text-white">
             <h3 className="font-bold text-lg">See it in the platform</h3>
             <p className="text-primary-100 text-sm mt-2">
               Explore the AI-powered pages built on this technology.

@@ -262,8 +262,8 @@ export default function Home() {
         </Reveal>
       </section>
 
-      <section className="bg-primary-600 text-white">
-        <Reveal className="max-w-7xl mx-auto px-8 py-14 flex flex-col md:flex-row items-center justify-between gap-8">
+      <section className="bg-cta-gradient bg-grain text-white">
+        <Reveal className="relative max-w-7xl mx-auto px-8 py-14 flex flex-col md:flex-row items-center justify-between gap-8">
           <div>
             <h2 className="text-3xl font-bold font-display">{t.ctaTitle}</h2>
             <p className="mt-2 text-primary-100">{t.ctaBody}</p>

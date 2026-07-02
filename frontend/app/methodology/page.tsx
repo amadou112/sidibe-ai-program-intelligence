@@ -333,7 +333,7 @@ export default function Methodology() {
 
           <p className="text-sm text-slate-500 mt-4">
             {t.toolsFooterPrefix}{" "}
-            <Link href="/#tech-stack" className="text-primary-600 font-semibold hover:text-primary-700 transition-colors">
+            <Link href="/#tech-stack" className="link-underline text-primary-600 font-semibold hover:text-primary-700 transition-colors">
               {t.toolsFooterLink}
             </Link>
             .
@@ -419,7 +419,7 @@ export default function Methodology() {
 
       {/* Multi-project */}
       <section className="max-w-7xl mx-auto px-8 pb-16">
-        <Reveal className="bg-primary-600 rounded-3xl p-10 text-white">
+        <Reveal className="bg-cta-gradient bg-grain rounded-3xl p-10 text-white">
           <p className="text-primary-200 font-bold mb-2">{t.multiProjectTag}</p>
           <h2 className="text-3xl font-extrabold mb-4 font-display">{t.multiProjectTitle}</h2>
           <p className="text-primary-100 max-w-3xl mb-8">{t.multiProjectSubtitle}</p>
@@ -540,8 +540,8 @@ export default function Methodology() {
       </section>
 
       {/* Final CTA */}
-      <section className="bg-primary-600 text-white">
-        <Reveal className="max-w-7xl mx-auto px-8 py-14 flex flex-col md:flex-row items-center justify-between gap-8">
+      <section className="bg-cta-gradient bg-grain text-white">
+        <Reveal className="relative max-w-7xl mx-auto px-8 py-14 flex flex-col md:flex-row items-center justify-between gap-8">
           <div>
             <h2 className="text-3xl font-bold flex items-center gap-3 font-display">
               <Rocket size={28} /> {t.ctaTitle}

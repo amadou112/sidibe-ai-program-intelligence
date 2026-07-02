@@ -27,7 +27,7 @@ export default async function IndustryPage({
 
       <section className="max-w-7xl mx-auto px-8 pt-14 pb-6">
         <Reveal>
-          <Link href="/#industries" className="text-sm font-semibold text-primary-600 hover:text-primary-700 transition-colors">
+          <Link href="/#industries" className="link-underline text-sm font-semibold text-primary-600 hover:text-primary-700 transition-colors">
             &larr; Industries We Serve
           </Link>
 
@@ -83,7 +83,7 @@ export default async function IndustryPage({
             <h3 className="text-3xl font-extrabold mt-1">{industry.stat.value}</h3>
           </div>
 
-          <div className="bg-primary-600 rounded-3xl p-6 shadow-glow text-white">
+          <div className="bg-cta-gradient bg-grain rounded-3xl p-6 shadow-glow text-white">
             <h3 className="font-bold text-lg">See it on your programs</h3>
             <p className="text-primary-100 text-sm mt-2">
               Explore the dashboard or ask the AI Assistant how this applies to your portfolio.
