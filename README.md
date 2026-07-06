@@ -6,7 +6,7 @@
 
 ## 🌐 Live Demo
 
-🔗 **Application:** https://frontend-sandy-nine-57.vercel.app
+🔗 **Application:** https://frontend-sandy-nine-59.vercel.app
 
 ---
 
