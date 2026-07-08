@@ -1,4 +1,4 @@
-# 🚀 Sidibe Enterprises AI Program Intelligence Platform
+# Sidibe Enterprises AI Program Intelligence Platform
 
 > AI-powered enterprise platform that helps Program Managers analyze project documentation, monitor risks, generate executive reports, and gain real-time insights using artificial intelligence.
 
