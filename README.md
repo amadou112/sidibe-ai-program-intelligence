@@ -4,13 +4,13 @@
 
 ---
 
-## 🌐 Live Demo
+## Live Demo
 
-🔗 **Application:** https://sidibe-ai-frontend.vercel.app/
+ **Application:** https://sidibe-ai-frontend.vercel.app/
 
 ---
 
-## 📌 Overview
+## Overview
 
 The **Sidibe Enterprises AI Program Intelligence Platform** is a modern enterprise application built to demonstrate how Artificial Intelligence can improve Program and Project Management.
 
@@ -20,21 +20,21 @@ This project showcases enterprise application architecture, modern frontend deve
 
 ---
 
-## ✨ Features
+## Features
 
-- 📊 Executive Dashboard
-- 🤖 AI Project Assistant
-- 📄 Document Management
-- ⚠️ RAID Log Analysis
-- 📈 Program Health Monitoring
-- 📅 Sprint & Status Reporting
-- 📋 Executive Report Generation
-- 🎨 Modern Responsive UI
-- ☁️ Cloud Deployment with Vercel
+- Executive Dashboard
+- AI Project Assistant
+- Document Management
+- RAID Log Analysis
+- Program Health Monitoring
+- Sprint & Status Reporting
+- Executive Report Generation
+- Modern Responsive UI
+- Cloud Deployment with Vercel
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Frontend
 - Next.js 15
@@ -55,7 +55,7 @@ This project showcases enterprise application architecture, modern frontend deve
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 Clone the repository
 
@@ -83,7 +83,7 @@ http://localhost:3000
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 app/
@@ -95,7 +95,7 @@ styles/
 
 ---
 
-## 🎯 Skills Demonstrated
+## Skills Demonstrated
 
 - AI Application Development
 - Technical Program Management
@@ -110,7 +110,7 @@ styles/
 
 ---
 
-## 🔮 Future Enhancements
+## Future Enhancements
 
 - FastAPI Backend
 - PostgreSQL Database
@@ -125,7 +125,7 @@ styles/
 
 ---
 
-## 👨‍💼 About the Developer
+## About the Developer
 
 **Amadou Sidibé**
 
@@ -133,13 +133,13 @@ AI Technical Program Manager | PgMP-PMP-SAFe-SPC| AI/ML Enthusiast
 
 Experienced in delivering enterprise software solutions, Agile Program Management, AI-driven applications, and cloud technologies.
 
-🌐 Website: https://sidibeenterprise.com
+Website: https://sidibeenterprise.com
 
-💻 GitHub: https://github.com/amadou112
+GitHub: https://github.com/amadou112
 
 ---
 
-## ⭐ Live Application
+## Live Application
 
 **https://frontend-sandy-nine-57.vercel.app**
 
